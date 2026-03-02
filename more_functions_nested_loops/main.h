@@ -1,6 +1,6 @@
 #ifndef MAIN_H
 #define MATH_H
 
-int_isupper(int c);
+int _isupper(int c);
 
 #endif
