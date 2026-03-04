@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
-* print line - draws a stright line in the terminal
+* print_line - draws a stright line in the terminal
 * @n: number of tims the char '_' shpuld be print
 *
 * Retrun: void
