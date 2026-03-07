@@ -15,18 +15,28 @@ int _atoi(char *s)
 
 	while (s[i] != '\0')
 	{
-		if (s[i] == '-')
-			sign *= -1;
-		else if (s[i] >= '0' && s[i] <= '9')
+		if (started == 0)
 		{
-			started = 1;
-			num = num * 10 + (s[i] - '0');
+			if (s[i] == '-')
+				sign *= -1;
+			else if (s[i] >= '0' && s[i] <= '9')
+			{
+				started = 1;
+				num = -(s[i] - '0');
+			}
 		}
-		else if (started == 1)
-			break;
-
+		else
+		{
+			if (s[i] >= '0' && s[i] <= '9')
+				num = (num * 10) - (s[i] - '0');
+			else
+				break;
+		}
 		i++;
 	}
 
-	return (num * sign);
+	if (sign == -1)
+		return (num);
+
+	return (-num);
 }
