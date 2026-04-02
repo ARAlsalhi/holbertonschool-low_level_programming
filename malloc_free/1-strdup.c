@@ -22,18 +22,16 @@ char *copy;
 
 if (str == NULL)
 	return (NULL);
-len = 0;
-while (str[len] != '\0')
-len++;
+
+for (len = 0; str[len] != '\0'; len++)
+;
 
 copy = malloc((len + 1) * sizeof(char));
-if (copy = NULL)
+if (copy == NULL)
 	return (NULL);
 
 for (i = 0; i < len; i++)
 copy[i] = str[i];
-
-copy[i] = '\0';
 
 return (copy);
 
