@@ -6,6 +6,7 @@
 *@array: array of int
 *@size: number of element in the array
 *@cmp: pointer tp cmp funtion
+*Return: index of first matching element, or -1
 */
 
 
