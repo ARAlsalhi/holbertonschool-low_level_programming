@@ -2,6 +2,34 @@
 #include <string.h>
 
 /**
+ * update_node - updates value if key already exists
+ * @node: node to check
+ * @key: key
+ * @value: new value
+ *
+ * Return: 1 if updated, 0 if key not found, -1 if failed
+ */
+int update_node(hash_node_t *node, const char *key, const char *value)
+{
+	char *value_copy;
+
+	while (node != NULL)
+	{
+		if (strcmp(node->key, key) == 0)
+		{
+			value_copy = strdup(value);
+			if (value_copy == NULL)
+				return (-1);
+			free(node->value);
+			node->value = value_copy;
+			return (1);
+		}
+		node = node->next;
+	}
+	return (0);
+}
+
+/**
  * hash_table_set - adds an element to the hash table
  * @ht: hash table
  * @key: key
@@ -13,47 +41,29 @@ int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 {
 	unsigned long int index;
 	hash_node_t *new_node;
-	hash_node_t *temp;
-	char *value_copy;
+	int updated;
 
 	if (ht == NULL || key == NULL || *key == '\0' || value == NULL)
 		return (0);
 
 	index = key_index((const unsigned char *)key, ht->size);
+	updated = update_node(ht->array[index], key, value);
 
-	temp = ht->array[index];
-
-	while (temp != NULL)
-	{
-		if (strcmp(temp->key, key) == 0)
-		{
-			value_copy = strdup(value);
-			if (value_copy == NULL)
-				return (0);
-
-			free(temp->value);
-			temp->value = value_copy;
-			return (1);
-		}
-
-		temp = temp->next;
-	}
+	if (updated == 1)
+		return (1);
+	if (updated == -1)
+		return (0);
 
 	new_node = malloc(sizeof(hash_node_t));
 	if (new_node == NULL)
 		return (0);
 
 	new_node->key = strdup(key);
-	if (new_node->key == NULL)
-	{
-		free(new_node);
-		return (0);
-	}
-
 	new_node->value = strdup(value);
-	if (new_node->value == NULL)
+	if (new_node->key == NULL || new_node->value == NULL)
 	{
 		free(new_node->key);
+		free(new_node->value);
 		free(new_node);
 		return (0);
 	}
